@@ -2,7 +2,7 @@
 import os
 from mcp.server.mcpserver import MCPServer
 import sqlite3
-#from markitdown import MarkItDown
+from markitdown import MarkItDown
 
 
 DB_NAME = 'studypilot.db'
@@ -66,6 +66,20 @@ def list_tasks() -> str:
 
 # Tools
 @mcp.tool()
+def convert_to_note(filepath: str):                  
+    converter = MarkItDown()
+    result = converter.convert(filepath)
+    text_content_of_converted_file = result.text_content
+    filename = os.path.basename(filepath)
+    name, ext = os.path.splitext(filename)
+    ext = '.md'
+    filename = name+ext
+    filepath = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)),'notes'),filename)
+    with open(filepath, 'w') as f:
+        f.write(text_content_of_converted_file)
+    return 'File successfully converted'
+
+@mcp.tool()
 def search_notes(query:str):
     """Search all notes for a keyword and return matching filenames."""
     notes_list = list_notes()
@@ -105,4 +119,4 @@ mcp.run()
 
 
 
- 
+os.path.join(os.path.dirname(__file__),'notes')

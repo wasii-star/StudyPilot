@@ -1,9 +1,10 @@
 import asyncio
+import os
 from mcp import stdio_client, StdioServerParameters, ClientSession
 
 server_params = StdioServerParameters(
     command="python3",
-    args=["server.py"],
+    args=[os.path.join(os.path.dirname(__file__),"server.py")],
 )
 
 
@@ -47,7 +48,13 @@ async def main():
             # })
             # print(result)
 
-            result = await session.read_resource("tasks://lists")
+            # result = await session.read_resource("tasks://lists")
+            # print(result)
+
+            # result = await session.call_tool("convert_to_note", {"filepath": "/home/wasike/Downloads/module2.pdf"})
+            # print(result)
+
+            result = await session.read_resource("notes://module2.md")
             print(result)
 
 asyncio.run(main())
