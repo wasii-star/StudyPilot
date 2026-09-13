@@ -44,7 +44,7 @@ def list_courses() -> str:
     conn.close()    
     return '\n'.join(courses_list)    
 
-@mcp.resource('tasks://lists')
+@mcp.resource('tasks://list')
 def list_tasks() -> str:
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
