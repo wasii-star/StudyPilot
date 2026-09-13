@@ -33,6 +33,7 @@ def read_note(note):
 
 @mcp.resource('courses://list')
 def list_courses() -> str:
+    '''Lists all available courses.'''
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM courses')
@@ -46,6 +47,7 @@ def list_courses() -> str:
 
 @mcp.resource('tasks://list')
 def list_tasks() -> str:
+    '''Lists all tasks.'''
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('''
@@ -66,7 +68,8 @@ def list_tasks() -> str:
 
 # Tools
 @mcp.tool()
-def convert_to_note(filepath: str):                  
+def convert_to_note(filepath: str):
+    '''Converts any file to markdown and stores resulting markdown file in notes folder.'''                  
     converter = MarkItDown()
     result = converter.convert(filepath)
     text_content_of_converted_file = result.text_content
@@ -94,6 +97,7 @@ def search_notes(query:str):
 
 @mcp.tool()
 def add_course(name, description, learning_objective):
+    '''Adds new course.'''
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('INSERT INTO courses(name,description,learning_objective) VALUES (?,?,?)',(name,description,learning_objective))
@@ -104,6 +108,7 @@ def add_course(name, description, learning_objective):
     
 @mcp.tool()
 def add_task(name, deadline, status, dependencies, course_id):
+    '''Adds new task.'''
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('INSERT INTO tasks(name, deadline, status, dependencies, course_id) VALUES (?,?,?,?,?)',(name, deadline, status, dependencies, course_id))
@@ -112,11 +117,16 @@ def add_task(name, deadline, status, dependencies, course_id):
     return 'Task added successfully.'
 
 
+# Prompt
+@mcp.prompt()
+def prepare_study_session(course_name: str) -> str:
+    """A reusable prompt template for preparing a study session for a course."""
+    return (
+        f"Look up the course '{course_name}' using courses://list, "
+        f"then check tasks://list for any tasks linked to that course. "
+        f"Search relevant notes using search_notes for topics related to '{course_name}'. "
+        f"Summarize what the student should focus on studying next."
+    )
+
+
 mcp.run()
-
-
-
-
-
-
-os.path.join(os.path.dirname(__file__),'notes')

@@ -54,7 +54,10 @@ async def main():
             # result = await session.call_tool("convert_to_note", {"filepath": "/home/wasike/Downloads/module2.pdf"})
             # print(result)
 
-            result = await session.read_resource("notes://module2.md")
+            # result = await session.read_resource("notes://module2.md")
+            # print(result)
+
+            result = await session.get_prompt("prepare_study_session", {"course_name": "Python"})
             print(result)
 
 asyncio.run(main())
