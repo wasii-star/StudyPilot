@@ -46,4 +46,8 @@ async def main():
                 "course_id": 1
             })
             print(result)
+
+            result = await session.read_resource("tasks://lists")
+            print(result)
+
 asyncio.run(main())

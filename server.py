@@ -44,6 +44,25 @@ def list_courses() -> str:
     conn.close()    
     return '\n'.join(courses_list)    
 
+@mcp.resource('tasks://lists')
+def list_tasks() -> str:
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('''
+    SELECT tasks.name, tasks.deadline, courses.name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.course_id;
+    ''')
+    rows = cursor.fetchall()
+    tasks_list = []
+    for row in rows:
+        task_info = f"{row[0]}: {row[1]}: {row[2]}"
+        tasks_list.append(task_info)
+    conn.close()    
+    return '\n'.join(tasks_list)     
+
+
+
 
 # Tools
 @mcp.tool()
