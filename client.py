@@ -35,7 +35,15 @@ async def main():
             # result = await session.call_tool("add_course", {"name": "Python", "description": "Learn Python basics", "learning_objective": "Understand core syntax"})
             # print(result)
 
-            result = await session.read_resource("courses://list")
-            print(result)
+            # result = await session.read_resource("courses://list")
+            # print(result)
 
+            result = await session.call_tool("add_task", {
+                "name": "Finish loops exercise",
+                "deadline": "2026-09-20",
+                "status": "pending",
+                "dependencies": "",
+                "course_id": 1
+            })
+            print(result)
 asyncio.run(main())

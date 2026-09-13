@@ -69,7 +69,14 @@ def add_course(name, description, learning_objective):
     return 'Course added successfully.'
 
     
-
+@mcp.tool()
+def add_task(name, deadline, status, dependencies, course_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO tasks(name, deadline, status, dependencies, course_id) VALUES (?,?,?,?,?)',(name, deadline, status, dependencies, course_id))
+    conn.commit()
+    conn.close()
+    return 'Task added successfully.'
 
 
 mcp.run()
