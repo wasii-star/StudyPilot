@@ -32,7 +32,10 @@ async def main():
             # result = await session.call_tool("search_notes", {"query": "function"})
             # print(result)
 
-            result = await session.call_tool("add_course", {"name": "Python", "description": "Learn Python basics", "learning_objective": "Understand core syntax"})
+            # result = await session.call_tool("add_course", {"name": "Python", "description": "Learn Python basics", "learning_objective": "Understand core syntax"})
+            # print(result)
+
+            result = await session.read_resource("courses://list")
             print(result)
-            
+
 asyncio.run(main())

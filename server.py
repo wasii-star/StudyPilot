@@ -31,6 +31,20 @@ def read_note(note):
         data = f.read()
         return data 
 
+@mcp.resource('courses://list')
+def list_courses() -> str:
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM courses')
+    rows = cursor.fetchall()
+    courses_list = []
+    for row in rows:
+        course_info = f"{row[0]}: {row[1]}"
+        courses_list.append(course_info)
+    conn.close()    
+    return '\n'.join(courses_list)    
+
+
 # Tools
 @mcp.tool()
 def search_notes(query:str):
