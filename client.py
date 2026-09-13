@@ -19,17 +19,20 @@ async def main():
             await session.initialize()
             print("4. Initialized")
 
-            resources = await session.list_resources()
-            print(resources)
+            # resources = await session.list_resources()
+            # print(resources)
 
-            templates = await session.list_resource_templates()
-            print(templates)
+            # templates = await session.list_resource_templates()
+            # print(templates)
 
             # result = await session.read_resource("notes://python_basics.md")
             # print("5. Resource received")
             # print(result)
             
-            result = await session.call_tool("search_notes", {"query": "function"})
-            print(result)
+            # result = await session.call_tool("search_notes", {"query": "function"})
+            # print(result)
 
+            result = await session.call_tool("add_course", {"name": "Python", "description": "Learn Python basics", "learning_objective": "Understand core syntax"})
+            print(result)
+            
 asyncio.run(main())
